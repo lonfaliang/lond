@@ -11,14 +11,16 @@
 
 6、可以根据需要增加加载模块
 
-一 、安装部署
+
+## 一 、安装部署
  1、运行 npm install lond 直接将lond包安装包到项目
+
  2、引入
  ```javascript
   var lond = require('lond')
 ```
-二、初始化
-1、初始化mysql
+## 二、初始化
+### 1、初始化mysql
  ```javascript
    var options = {
         DATABASE: 'URQuantDB',
@@ -31,7 +33,7 @@
     }
     lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例
 ```
-2、初始化mongodb
+### 2、初始化mongodb
  ```javascript
  var options = {
          host: 'mongodb://127.0.0.1:27017/node_club_test',
@@ -39,7 +41,7 @@
     };
  lond.startMongoDB(options)
 ```
-3、初始化redis
+### 3、初始化redis
  ```javascript
  var options = {
      port: 6379,
@@ -47,32 +49,25 @@
  };
  lond.startRedis(options)
 ```
-三、监听mysql事件
+## 三、监听事件
+ ```javascript
 lond.mysql.event.on("error",function(err){
   console.error("发生错误"+err)
 })
-
-监听mongodb事件
 lond.mongodb.event.on("error",function(err){
   console.error("发生错误"+err)
 })
-
-监听redis事件
-
 lond.redis.event.on("error",function(err){
   console.error("发生错误"+err)
 })
+```
 
 
 
+## 四、 API
 
-
-API
-
-四、 mysql
-
-1、默认使用连接池连接 操作sql语句防注入默认必须用占位符方式
-
+### 1、默认使用连接池连接 操作sql语句防注入默认必须用占位符方式
+ ```javascript
 var options = {
     DATABASE: 'test', //数据库 默认值test库
     USERNAME: 'root', //用户名 默认值root
@@ -82,27 +77,23 @@ var options = {
     connectionLimit: 30,//连接池数量 默认值10
     multipleStatements: true
 }
-
-2、项目运行时如果需要mysql必须要进行初始化
+```
+### 2、项目运行时如果需要mysql必须要进行初始化
+ ```javascript
 lond.startMysql(true, options) //初始化Mysql模块 并得到mysql链接实例 lond会新增一个mysql key 作为mysql连接实例
+```
 
-3、同步操作sql语句
-
+ ```javascript
+  // 同步操作sql语句
  var user = await lond.mysql.query("select * from test");
- 
   if (uer.error) {
-  
         console.error("sql出错"+uer.error)
-        
     }else{
-    
     console.log(user)
-    
     }
-    
- 4、异步操作sql
+//异步操作sql
   lond.mysql.Exquery("update set user = ?,age=?",["小黄人",20]);
-  
+ ```
   
  五 、mongodb
   
