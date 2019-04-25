@@ -103,7 +103,7 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
       host: 'mongodb://192.168.0.5:27017/node_club_test', // host:连接地址
       table:"node_club_test" // table:需要操作的库
       };
- lond.startMongoDB(true, options)//初始化mongodb模块 并得到mongodb链接实例 lond会新增一个mongd key 作为mongodb连接实例
+ lond.startMongoDB(options)//初始化mongodb模块 并得到mongodb链接实例 lond会新增一个mongd key 作为mongodb连接实例
   ```
   
 ###  find(table, data, skip, limit, sort) 同步查询
@@ -112,8 +112,7 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
  * @param number skip :从第几条开始查
  * @param number limit:查询多少条
  * @param object sort :排序
-
- ```javascript
+```javascript
 //实例 查询 users集合 userName为小红 从第0条开始查询10条 以name字段倒序
  let user = await lond.mongod.find("users",{userName:"小红"},0,10,{name:-1} )
    if (uer.error) {
@@ -122,7 +121,7 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
      console.log(user)
     }
  
-   ```
+  ```
   
 ### updateOne(table, data, value) 同步修改单条
  * @param string table 集合
@@ -166,12 +165,12 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
  * @param object data  条件
  * @param object value 需要修改的列和值
  ```javascript
-      lond.mongod.ExupdateAll(table, {}, {$set:{test:"111"}},true) 
+      lond.mongod.ExupdateAll(table, {}, {$set:{test:"111"}}) 
   ```
 
 ### deleteOne (table, data) 同步删除单条
- * @param table 需要修改的集合
- * @param data  条件
+ * @param string table 需要修改的集合
+ * @param object data  条件
   ```javascript
     let deleteOne =  lond.mongod.deleteOne(table, {}) 
        if (deleteOne.error) {
@@ -182,249 +181,294 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
    ```
 
 ### ExdeleteOne (table, data)异步删除单条
-  * @param table 需要修改的集合
-  * @param data  条件
+  * @param string table 需要修改的集合
+  * @param object data  条件
    ```javascript
-      lond.mongod.ExdeleteOne(table, {}, {$set:{test:"111"}},true) 
+      lond.mongod.ExdeleteOne(table, {}) 
   ```
 
-/**同步删除满足条件的deleteAll(table, data)
- * @param table 需要修改的集合
- * @param data  条件
- */
+### deleteAll(table, data)同步删除满足条件的
+ * @param string table 需要修改的集合
+ * @param object data  条件
+ ```javascript
+    let deleteAll =  lond.mongod.deleteAll(table, {}) 
+       if (deleteAll.error) {
+         console.error("sql出错"+deleteAll.error)
+     }else{
+     console.log(deleteAll)
+     }
+ ```
+ ### ExdeleteAll (table, data)异步删除满足条件的
+ * @param string table 需要修改的集合
+ * @param object data  条件
+```javascript
+      lond.mongod.ExdeleteAll(table, {}) 
+```
  
- 10、
-/**异步删除满足条件的ExdeleteAll (table, data)
- * @param table 需要修改的集合
- * @param data  条件
- */
- 
- 
-六 、redis
- 
- 
- 1、初始化redi
-  var re = {
+###  3、redis
+```javascript
+  var options = { 
       verification: false,//是否开启redis密码连接
       port: 6379,
       host: '192.168.0.5',
-     pwd: 'test'
+      pwd: ''  //verification为true时需要填写密码
   };
-  lond.startRedis(true, re)
-  
-
- 2、
-/**
-*同步set set(key, value, expire, pexpireat)
-* @param key
-* @param value
-* @param expire 过期时间 可以字符串
-* @param pexpireat 是否使用毫秒
+  lond.startRedis(options)
+  ```
+### set(key, value, expire, pexpireat)同步set 
+* @param string key
+* @param string value
+* @param number expire 过期时间 可以字符串
+* @param boolean pexpireat 是否使用毫秒
 * @returns {Promise<any>}
-*/
+```javascript
+ let set = await lond.redis.set('test','test')
+ if (set.error) {
+   console.error("sql出错"+set.error)
+ }else{
+   console.log(set)
+ }
+```
  
- 
-3、
-/***
-* 异步set Exset(key, value, expire, pexpireat)
-* @param key
-* @param value
-* @param expire
-* @param pexpireat
+### Exset(key, value, expire, pexpireat)异步set 
+* @param string  key
+* @param string value
+* @param number  expire
+* @param boolean pexpireat
 * @constructor
-*/
-  
-4、
-/**
-*同步get get(key)
-* @param key
+
+```javascript
+lond.redis.Exset('test','test')
+```
+### get(key) 同步get
+* @param string key
 * @returns {Promise<any>}
-*/
-   
-5、
-
-/**
- * 同步递减 值必须是数字 incr(key)
- * @param key
- * @returns {Promise<any>}
- */
+```javascript
+ let get = await lond.redis.get('test','test')
+ if (get.error) {
+   console.error("sql出错"+get.error)
+ }else{
+   console.log(get)
+ }
+```
  
- 6、
- /***
-  * 异步递减 值必须是数字 Exincr(key)
-  * @param key
+ ###  incr(key)同步递减 值必须是数字
+ * @param string key
+ * @returns {Promise<any>}
+```javascript
+ let incr = await lond.redis.incr('mun')
+   if (incr.error) {
+     console.error("sql出错"+incr.error)
+   }else{
+     console.log(incr)
+   }
+```
+### Exincr(key)异步递减 值必须是数字
+  * @param string key
   * @constructor
-  */
+```javascript
+    lond.redis.Exincr('num')
+```
   
- 7、
- /**
- * 从尾部push List
- * @param key
+ ### rpush(key, value)同步从尾部push List
+ * @param string key
  * @param value
- */
-   
-   8、
-/**
- * 异步新增list
- * @param key
- * @param value
- * @returns {Promise<any>}
- * @constructor
- */
- 
-9、
+```javascript
+ let rpush = await lond.redis.rpush('test','test')
+   if (rpush.error) {
+     console.error("sql出错"+rpush.error)
+   }else{
+     console.log(rpush)
+   }
+```
 
-/**
- * 同步 删除list lrem(key, num, flag)
- * @param key
- * @param num 删除个数
- * @param flag 指定内容
- * @returns {Promise<any>}
- */
+### Exrpush(key, value)同步从尾部push List
+ * @param string key
+ * @param string value
+```javascript
+ lond.redis.Exrpush('test','test')
  
- 10、
- /**
-  * 异步删除list Exlrem (key, num, flag)
-  * @param key
-  * @param num
-  * @param flag
+```
+
+ 
+### lrem(key, num, flag)同步 删除list
+ * @param string key
+ * @param number num 删除个数
+ * @param string flag 指定内容
+ * @returns {Promise<any>}
+ ```javascript
+ let lrem = await lond.redis.lrem('test',1,"test")
+   if (lrem.error) {
+     console.error("sql出错"+lrem.error)
+   }else{
+     console.log(lrem)
+   }
+```
+ 
+list Exlrem (key, num, flag)异步删除
+  * @param string  key
+  * @param number num
+  * @param string flag
   * @constructor
-  */
   
-  11、
- 
-/**
- *同步获取全部List lrangen (key, startSum, stopSum)
- * @param key
- * @param startSum 开始位数
- * @param stopSum  结束位数 -1为全部
+```javascript
+lond.redis.Exlrem('test',1,"test")
+```
+  
+### lrangen (key, startSum, stopSum)同步获取全部List
+ * @param string  key
+ * @param number startSum 开始位数
+ * @param number stopSum  结束位数 -1为全部
  * @returns {Promise<any>}
- */
  
- 12、
- /**
-  * 同步获取hash  hgetall(key)
-  * @param key
+ ```javascript
+  let lrem = await lond.redis.lrangen('test',0,-1)
+   if (lrangen.error) {
+     console.error("sql出错"+lrangen.error)
+   }else{
+     console.log(lrangen)
+   }
+```
+
+ 
+### hgetall(key)同步获取hash 
+  * @param string  key
   * @returns {Promise<any>}
-  */
+ ```javascript
+  let hgetall = await lond.redis.hgetall('test')
+   if (hgetall.error) {
+     console.error("sql出错"+hgetall.error)
+   }else{
+     console.log(hgetall)
+   }
+```
   
-  
-13、
-/**
+### hget(hashkey, key)同步获取hash 
  *同步获取指定hash hget(hashkey, key)
- * @param hashkey hash的key
- * @param key     hash里面单跳key
+ * @param string hashkey hash的key
+ * @param string key     hash里面单跳key
  * @returns {Promise<any>}
- */
+ ```javascript
+  let hget = await lond.redis.hget('hash',"haskkey")
+   if (hget.error) {
+     console.error("sql出错"+hget.error)
+   }else{
+     console.log(hget)
+   }
+```
  
  
- 14、
- /**
-  * 同步设置hash  hset(hashkey, key, value)
-  * @param hashkey
-  * @param key
-  * @param value
+### hset(hashkey, key, value)同步设置hash 
+  * @param string hashkey
+  * @param string key
+  * @param string value
   * @returns {Promise<any>}
-  */
+ ```javascript
+  let hset = await lond.redis.hset('hahashkeysh',"key","test")
+   if (hset.error) {
+     console.error("sql出错"+hset.error)
+   }else{
+     console.log(hset)
+   }
+```
   
-  15、
-  /**
-   * 异步设置hash Exhset(hashkey, key, value)
-   * @param hashkey
-   * @param key
-   * @param value
-   * @constructor
-   */
+  
+  ### Exhset(hashkey, key, value)同步设置hash 
+  * @param string hashkey
+  * @param string key
+  * @param string value
+  * @returns {Promise<any>}
+```javascript
+  lond.redis.Exhset('hahashkeysh',"key","test")
+```
 
-七、其他封装方法
+### aes对称加解密
+```javascript
+lond.lond.start({{ // 设置aes加密参数
+    key: '0123456789abcdef', //密钥
+    iv: 'yunzhifundsproke', //偏移向量
+    padding: 'PKCS7Padding' //补全值
+}})
 
+let en = lond.lond.encryption("aasdddd") //aes对称加密：
+console.log(en) //Ugx9Wt6PWorg178MbA8+rg==
+let de = lond.lond.encryption("Ugx9Wt6PWorg178MbA8+rg==") //aes对称解密
+console.log(de) //aasdddd
 
-    lond.lond.encryption("asdasdsd")
+```
 
-    1、aes对称加密：encryption(str)
-    /**encryption(object)
-     * data.key ：16位钥匙 任意字符串
-     * data.iv : 16位偏移量 任意字符串
-     * data.value: 需要加密内容
-     * AES_128_CBC 加密
-     * 128位
-     * return base64
-     */
+### removeRepeatAttr(Array, key)删除json中重复内容
 
-     2、aes对称解密：decryption(str)
-    /** decryption(object)
-     *  data.key ：16位钥匙 任意字符串
-     * data.iv : 16位偏移量 任意字符串
-     * data.value: 需要解密密内容
-     * 解密
-     * return utf8
-     */
+ * @param arr
+ * @param string
+ ```javascript
+ var Array = [{"name":"111"},{"name":"111"},{"name":"222"}]
+ var newArr = lond.lond.removeRepeatAttr(Array, "name")  //会删除一个name:111
+   console.log(newArr) // [{"name":"111"},{"name":"222"}]
+     
+```
 
-     3、 removeRepeatAttr(Array, key)
-     var Array = [{"name":"111"},{"name":"111"},{"name":"222"}]
-     removeRepeatAttr(Array, "name") //会删除一个name:111
-      /**删除json中重复内容
-      * removeRepeatAttr(Array, key)
-      *实例
-      * var arr = [{name:"test"},{name:"test"},name:"hell"]
-      *var key = name
-      * removeRepeatAttr(arr, key)
-      * @param Array
-      * @param key
-      */
+### numberCheck(num,pStatus)检查是否为数字
+    *@param number
+    *@param bumber 两个参数 1：数字  2:true为小数 fale不是小数
+    *@return boolena
+```javascript
+console.log(lond.lond.numberCheck(100,false))//true
+```
 
-      4、 /* numberCheck(num,pStatus)
-         *检查是否为数字
-         * 两个参数 1：数字  2:true为小数 fale不是小数
-         */
+### checkEmail(str)验证邮箱
+   * @param str
+   * @returns {boolean}
+```javascript
+console.log(lond.lond.checkEmail("123@qq.com"))//true
+```
+### uuid()获取uuid
+    * @returns string
+```javascript
+console.log(lond.lond.uuid())//d115yu5a61wd6wa1u6aw1d61adwa5
+```
+### repArr(arr)数组去重
+    * @param arr
+    * @returns {arr}
+```javascript
+console.log(lond.lond.repArr(['aa','aa','bb']))//['aa','bb']
+```
+###  trim(num)去除空白
+   * @param string
+   * @returns string
+```javascript
+console.log(lond.lond.trim('a s dd'))//asdd
+```
+###  checkRealNum(num)检查是否为实数
+   * @param num
+```javascript
+console.log(lond.lond.checkRealNum(asd))//asdd
+```
 
-       5、/**checkEmail(str)
-        * 验证邮箱
-        * @param str
-        * @returns {boolean}
-        */
+### daysBetween(DateOne,DateTwo)计算两日期之间的相差天数
+  * @param string
+  * @param string
+  * @returns number
+```javascript
+console.log(lond.lond.daysBetween("2018-05-12","2018-05-13"))//1
+```
+### getRandomArrayElements(arr, count)数组中指定取出字符中参数
 
-      6、/**uuid()
-       * 获取uuid
-       */
+  * @param arr
+  * @param obj
+  * @returns obj
+```javascript
+console.log(lond.lond.getRandomArrayElements(['aa','bb'], 'aa'))//aa
+```
 
-       7、/**repArr(arr)
-       * 数组去重
-       * @param arr
-       * @returns {*}
-       */
+### componentDate(arr)將一個二维数组转为一维数组
+  * @param arr
+  * @returns arr
+  ```javascript
+console.log(lond.lond.getRandomArrayElements(['aa','bb'], 'aa'))//aa
+```
+  
 
-     8、
-      /* trim(pValue);
-       *去除空白
-       * 只能有一个参数
-       */
-
-      9、
-      /* checkRealNum(pId,pStatus)
-       *检查是否为实数
-       * 参数：任何参数
-       */
-
-    10、
-      /*daysBetween(DateOne,DateTwo)
-       *计算两日期之间的相差天数
-       *日期格式 yyyy-mm-dd
-       *两个参数
-       */
-
-     11、
-      /*getRandomArrayElements(arr, count)
-       *指定取出字符中参数
-       *两个参数1：Array  2 数字参数(不能超过array的length)
-       *
-       */
-
-    12、
-      /**componentDate(data)
-       * 將一個二维数组转为一维数组
-       * 参数 ：二维数组
-       */
    13、
       /**instend(one,tow)
        * 得到两个数组中不同部分
