@@ -1,7 +1,7 @@
 
 
 简介：
-1、lond 集成了mysql mongodb redis 加密 的操作
+1、lond 集成了mysql mongodb redis 加密 的操作 \r\n
 2、基于模块 crypto mysql mongodb redis
 3、参数返回格式 会返回error参数 如果error不为null就说明sql出错 {error:null,result:true}
 4、每个模块都会有start、ready、error事件
