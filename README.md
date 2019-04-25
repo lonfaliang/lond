@@ -66,7 +66,7 @@ lond.redis.event.on("error",function(err){
 
 ## 四、 API
 
-### 1、默认使用连接池连接 操作sql语句防注入默认必须用占位符方式
+### 1、Mysql
  ```javascript
 var options = {
     DATABASE: 'test', //数据库 默认值test库
@@ -77,12 +77,10 @@ var options = {
     connectionLimit: 30,//连接池数量 默认值10
     multipleStatements: true
 }
+//项目加载时必须初始化mysql 后面得到 lond.mysql实例
+lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond会新增一个mysql key 作为mysql连接实例
 ```
-### 2、项目运行时如果需要mysql必须要进行初始化
- ```javascript
-lond.startMysql(true, options) //初始化Mysql模块 并得到mysql链接实例 lond会新增一个mysql key 作为mysql连接实例
-```
-
+### query(sql,data,callback) 同步执行
  ```javascript
   // 同步操作sql语句
  var user = await lond.mysql.query("select * from test");
@@ -91,59 +89,65 @@ lond.startMysql(true, options) //初始化Mysql模块 并得到mysql链接实例
     }else{
     console.log(user)
     }
+ ```
+   
+### Exquery(sql,data,callback) 异步执行
+   ```javascript
 //异步操作sql
   lond.mysql.Exquery("update set user = ?,age=?",["小黄人",20]);
  ```
-  
- 五 、mongodb
-  
-  1、初始化
+  ### 3、mongodb
  
- host:连接地址
- table:需要操作的库
- var options ={host: 'mongodb://192.168.0.5:27017/node_club_test',table:"node_club_test"};
+ ```javascript
+ var options ={
+      host: 'mongodb://192.168.0.5:27017/node_club_test', // host:连接地址
+      table:"node_club_test" // table:需要操作的库
+      };
  lond.startMongoDB(true, options)//初始化mongodb模块 并得到mongodb链接实例 lond会新增一个mongd key 作为mongodb连接实例
- 
- 2、同步查询  find(table, data, skip, limit, sort)
- 
-   dable:集合名 (必传)
-   data :条件   (必传)
-   skip :从第几条开始查
-   limit:查询多少条
-   sort :排序
-
- find:除了第一个个参数为必填其他参数均为可选
-
- let user = await lond.mongod.find("users",{userName:"小红"},0,10,{name:-1} )
- 
-   if (uer.error) {
-   
-         console.error("sql出错"+uer.error)
-         
-     }else{
-     
-     console.log(user)
-     
-     }
- 上述查询：查询 users集合 userName为小红 从第0条开始查询10条 以name字段倒序
+  ```
   
-   
- 3、 
- /**同步修改单条 updateOne(table, data, value) 
+###  find(table, data, skip, limit, sort) 同步查询
+ ```javascript
+ // dable:集合名 (必传)
+// data :条件   (必传)
+// skip :从第几条开始查
+// limit:查询多少条
+// sort :排序
+//find:除了第一个参数为必填其他参数均为可选
+
+//实例 查询 users集合 userName为小红 从第0条开始查询10条 以name字段倒序
+ let user = await lond.mongod.find("users",{userName:"小红"},0,10,{name:-1} )
+   if (uer.error) {
+         console.error("sql出错"+uer.error)
+     }else{
+     console.log(user)
+     }
+ 
+   ```
+  
+### updateOne(table, data, value) 同步修改单条
  * @param table 集合
  * @param data  条件
  * @param value  修改数据
  * @returns {Promise<any>}
- */
+ ```javascript
+  let updateOne = await lond.mongod.updateOne(table, data, value) 
+    if (updateOne.error) {
+         console.error("sql出错"+updateOne.error)
+     }else{
+     console.log(updateOne)
+     }
+  ```
     
-  4、 
- /** 异步修改单条ExupdateOne(table, data, value)
+### ExupdateOne(table, data, value) 异步修改单条
  * @param table 集合
  * @param data  条件
  * @param value  修改数据
  * @returns {Promise<any>}
- */
-   
+ ```javascript
+    lond.mongod.updateOne(table, data, value) 
+ ```
+ 
   5、
  /**同步修改满足条件的updateAll(table, data, value, upsert)
  * @param table 需要修改的集合
