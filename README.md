@@ -1,6 +1,6 @@
 # lond
 
-# # 简介：
+## 简介：
 
 1、lond 集成了mysql mongodb redis 加密 的操作 </br>
 
@@ -14,7 +14,7 @@
 
 6、可以根据项目需要初始化不通模块即可
 
- # # # 1、安装部署
+ ### 1、安装部署
  
 1、运行 npm install lond 直接将lond包安装包到项目</br>
 
@@ -22,7 +22,7 @@
 ```javascript 
  var lond = require('lond')
  ```
-  # # #2、初始化mysql
+  ###2、初始化mysql
 ```javascript 
     var options = {
         DATABASE: 'URQuantDB',
@@ -36,7 +36,7 @@
     lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例
  ```
  
-  # # # 3、初始化mongodb
+  ### 3、初始化mongodb
   
   ```javascript 
    var options = {
@@ -46,7 +46,7 @@
    lond.startMongoDB(options)
  ```
  
-   # # # 3、初始化redis
+   ### 3、初始化redis
    
      
   ```javascript 
