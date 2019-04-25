@@ -22,7 +22,7 @@
 ```javascript 
  var lond = require('lond')
  ```
-  ###2、初始化mysql
+ ###2、初始化mysql
 ```javascript 
     var options = {
         DATABASE: 'URQuantDB',
