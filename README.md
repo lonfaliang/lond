@@ -107,31 +107,30 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
   ```
   
 ###  find(table, data, skip, limit, sort) 同步查询
- ```javascript
- // dable:集合名 (必传)
-// data :条件   (必传)
-// skip :从第几条开始查
-// limit:查询多少条
-// sort :排序
-//find:除了第一个参数为必填其他参数均为可选
+ * @param string dable:集合名 (必传)
+ * @param objeck data :条件   (必传可为空对象)
+ * @param number skip :从第几条开始查
+ * @param number limit:查询多少条
+ * @param object sort :排序
 
+ ```javascript
 //实例 查询 users集合 userName为小红 从第0条开始查询10条 以name字段倒序
  let user = await lond.mongod.find("users",{userName:"小红"},0,10,{name:-1} )
    if (uer.error) {
          console.error("sql出错"+uer.error)
-     }else{
+    }else{
      console.log(user)
-     }
+    }
  
    ```
   
 ### updateOne(table, data, value) 同步修改单条
- * @param table 集合
- * @param data  条件
- * @param value  修改数据
+ * @param string table 集合
+ * @param object data  条件
+ * @param object value  修改数据
  * @returns {Promise<any>}
  ```javascript
-  let updateOne = await lond.mongod.updateOne(table, data, value) 
+  let updateOne = await lond.mongod.updateOne(table, {}, {$set:{"test":"test"}}) 
     if (updateOne.error) {
          console.error("sql出错"+updateOne.error)
      }else{
@@ -140,43 +139,55 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
   ```
     
 ### ExupdateOne(table, data, value) 异步修改单条
- * @param table 集合
- * @param data  条件
- * @param value  修改数据
+ * @param string table 集合
+ * @param object data  条件
+ * @param object value  修改数据
  * @returns {Promise<any>}
  ```javascript
     lond.mongod.updateOne(table, data, value) 
  ```
  
-  5、
- /**同步修改满足条件的updateAll(table, data, value, upsert)
- * @param table 需要修改的集合
- * @param data  条件
- * @param value 需要修改的列和值
- * @param upsert 有则修改没有则插入 默认false
- */
+### updateAll(table, data, value, upsert) 同步修改满足条件的
+ * @param string table 需要修改的集合
+ * @param object data  条件
+ * @param object value 需要修改的列和值
+ * @param boolean upsert 有则修改没有则插入 默认false
+  ```javascript
+    let updateAll =  lond.mongod.updateAll(table, {}, {$set:{test:"111"}},true) 
+       if (updateAll.error) {
+         console.error("sql出错"+updateAll.error)
+     }else{
+     console.log(updateAll)
+     }
+ ```
  
+### ExupdateAll (table, data, value) 异步修改满足条件的
+ * @param string table 需要修改的集合
+ * @param object data  条件
+ * @param object value 需要修改的列和值
+ ```javascript
+      lond.mongod.ExupdateAll(table, {}, {$set:{test:"111"}},true) 
+  ```
 
-6、
-/**异步修改满足条件的ExupdateAll (table, data, value)
+### deleteOne (table, data) 同步删除单条
  * @param table 需要修改的集合
  * @param data  条件
- * @param value 需要修改的列和值
- */
+  ```javascript
+    let deleteOne =  lond.mongod.deleteOne(table, {}) 
+       if (deleteOne.error) {
+         console.error("sql出错"+deleteOne.error)
+     }else{
+     console.log(deleteOne)
+     }
+   ```
 
-7、
-/**同步删除单条 deleteOne (table, data)
- * @param table 需要修改的集合
- * @param data  条件
- */
- 
- 8、
- /**异步删除单条ExdeleteOne (table, data)
+### ExdeleteOne (table, data)异步删除单条
   * @param table 需要修改的集合
   * @param data  条件
-  */
-  
- 9、
+   ```javascript
+      lond.mongod.ExdeleteOne(table, {}, {$set:{test:"111"}},true) 
+  ```
+
 /**同步删除满足条件的deleteAll(table, data)
  * @param table 需要修改的集合
  * @param data  条件
