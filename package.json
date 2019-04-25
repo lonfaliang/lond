@@ -1,0 +1,47 @@
+{
+  "_from": "lond@^1.0.4",
+  "_id": "lond@1.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-JjI+3fc+Q2WeXGfKjRIqv4k6ekLpPfLhu+lr1Y4nLWscj5Q27cDx/1A2bBqXY12Ofk+oOnw/JiW3s4hV5KqQnA==",
+  "_location": "/lond",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "lond@^1.0.4",
+    "name": "lond",
+    "escapedName": "lond",
+    "rawSpec": "^1.0.4",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.4"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/lond/-/lond-1.0.5.tgz",
+  "_shasum": "ccd163ecb03546bd31910ad011324bba3ce8ec54",
+  "_spec": "lond@^1.0.4",
+  "_where": "F:\\QuantFunds\\WebServer\\nodeServer",
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "author：longfaliang\r email:473190078@qq.com",
+  "directories": {
+    "lib": "lib"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "name": "lond",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.2.5",
+  "dependencies": {
+    "mongodb": "^3.2.3",
+    "mysql": "^2.16.0",
+    "uuid": "^3.3.2",
+    "redis": "^2.8.0",
+    "cryptojs": "^2.5.3"
+  }
+}
