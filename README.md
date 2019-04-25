@@ -1,21 +1,14 @@
-作者：longfaliang
 
-有更好建议和代码提交请发送邮箱到 473190078@qq.com
 
 简介：
 1、lond 集成了mysql mongodb redis 加密 的操作
-
 2、基于模块 crypto mysql mongodb redis
-
 3、参数返回格式 会返回error参数 如果error不为null就说明sql出错 {error:null,result:true}
-
 4、每个模块都会有start、ready、error事件
-
 5、初始化模块会触发start事件 初始化完成会触发ready事件 报错会触发error事件
 
 一 、安装部署
 1、运行 npm install lond 直接将lond包安装包到项目
-
 2、引入 var lond = require('lond')
 
 二、初始化
@@ -446,3 +439,6 @@ lond.startMysql(true, options) //初始化Mysql模块 并得到mysql链接实例
       * @param max//最多多少位
       * @returns {string}
       */
+      
+      
+      有更好建议和代码提交请发送邮箱到 473190078@qq.com
