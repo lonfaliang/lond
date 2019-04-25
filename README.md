@@ -440,7 +440,7 @@ console.log(lond.lond.repArr(['aa','aa','bb']))//['aa','bb']
 console.log(lond.lond.trim('a s dd'))//asdd
 ```
 ###  checkRealNum(num)检查是否为实数
-   * @param num
+   * @param number num
 ```javascript
 console.log(lond.lond.checkRealNum(asd))//asdd
 ```
@@ -454,7 +454,7 @@ console.log(lond.lond.daysBetween("2018-05-12","2018-05-13"))//1
 ```
 ### getRandomArrayElements(arr, count)数组中指定取出字符中参数
 
-  * @param arr
+  * @param array arr
   * @param obj
   * @returns obj
 ```javascript
@@ -462,41 +462,50 @@ console.log(lond.lond.getRandomArrayElements(['aa','bb'], 'aa'))//aa
 ```
 
 ### componentDate(arr)將一個二维数组转为一维数组
-  * @param arr
-  * @returns arr
+  * @param array arr
+  * @returns array arr
   ```javascript
 console.log(lond.lond.getRandomArrayElements(['aa','bb'], 'aa'))//aa
 ```
   
+### instend(arrOne,arrtow)得到两个数组中不同部分
+  * @param array arrOne
+  * @param array arrtow
+  * @returns arr
+```javascript
+console.log(lond.lond.instend(['aa','bb'], ['aa','bb','cc']))//cc
+```
+  
+### contains(arr, obj)判断数组中是否包含元素
+  * @param array arr
+  * @param obj obj
+  * @returns boolean
+```javascript
+console.log(lond.lond.instend(['aa','cc'], ['cc']))//true
+```
+### formatDateTime(num)获取时间
+   * @param number 1: yyyy-MM-dd hh:mm:ss,2: yyyy-mm-dd,3: hh:mm:ss,4: 毫秒时间戳
+  * @returns {string}
+  
+ ```javascript
+console.log(lond.lond.formatDateTime(2))//2019-04-25
+```
 
-   13、
-      /**instend(one,tow)
-       * 得到两个数组中不同部分
-       * 参数 ：两个数组
-       */
-
-    14、
-     /* contains(arr, obj) ;
-      *判断数组中是否包含元素
-      *
-      */
-
-    15、
-     /**
-      *获取时间
-      * 参数
-      * 1: yyyy-MM-dd hh:mm:ss
-      * 2: yyyy-mm-dd
-      * 3: hh:mm:ss
-      * 4: 毫秒时间戳
-      * @param obj
-      *
-      * @returns {*}
-      */
-     16、
-    /**
-      * 生成字符串
+### randomWord(min,max)随机生成字符串
       * @param min//最少多少位
       * @param max//最多多少位
       * @returns {string}
-      */
+ ```javascript
+console.log(lond.lond.randomWord(2,2))//ax
+```
+
+
+### remove(array,val)删除数组中指定值并且不留下
+     * @param array
+     * @param obj
+     
+```javascript
+console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
+```
+
+
