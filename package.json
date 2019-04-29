@@ -36,7 +36,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.2.5",
+  "version": "1.2.12",
   "dependencies": {
     "mongodb": "^3.2.3",
     "mysql": "^2.16.0",
