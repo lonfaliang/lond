@@ -137,7 +137,7 @@ setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序
   var lond = require('lond')
 ```
 ## 初始化
-### 1、初始化mysql
+### 初始化mysql
  ```javascript
    var options = {
         DATABASE: 'URQuantDB',
@@ -150,7 +150,7 @@ setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序
     }
     lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例
 ```
-### 2、初始化mongodb
+### 初始化mongodb
  ```javascript
  var options = {
          host: 'mongodb://127.0.0.1:27017/node_club_test',
@@ -158,7 +158,7 @@ setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序
     };
  lond.startMongoDB(options)
 ```
-### 3、初始化redis
+### 初始化redis
  ```javascript
  var options = {
      port: 6379,
@@ -183,7 +183,7 @@ lond.redis.event.on("error",function(err){
 
 ## API
 
-### 1、Mysql
+## Mysql
  ```javascript
 var options = {
     DATABASE: 'test', //数据库 默认值test库
@@ -213,7 +213,7 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
 //异步操作sql
   lond.mysql.Exquery("update set user = ?,age=?",["小黄人",20]);
  ```
-  ### 3、mongodb
+ ## mongodb
  
  ```javascript
  var options ={
@@ -322,7 +322,7 @@ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例 lond�
       lond.mongod.ExdeleteAll(table, {}) 
 ```
  
-###  3、redis
+## redis
 ```javascript
   var options = { 
       verification: false,//是否开启redis密码连接
