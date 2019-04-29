@@ -1,25 +1,142 @@
- # 简介：
-1、lond 集成了mysql mongodb redis 加密 的操作 </br>
+# 简介：
+1、lond 封装了mysql mongodb redis 及其他一些常用方法 简化了操作 </br>
 
 2、基于模块 crypto mysql mongodb redis</br>
 
 3、参数返回格式 会返回error参数 如果error不为null就说明sql出错 {error:null,result:true}</br>
 
-4、每个模块都会有start、ready、error事件</br>
+4、每个模块都会有ready、error事件</br>
 
 5、初始化模块会触发start事件 初始化完成会触发ready事件 报错会触发error事件</br>
 
 6、可以根据需要增加加载模块
 
 
-## 一 、安装部署
+## 注意事项：
+ 1、lond刚提交为测试期如果有建议和问题可直接联系作者</br>
+ 2、lond使用数据库时必须初始化否则获取不到连接对象</br>
+ 3、一定要监听ready、error事件</br>
+ 4、项目均开源安装后直接在 /node_modules/lond 包里面获取的就是源码
+
+### redis实例
+ ```javascript
+var lond = require("lond")
+var re = {
+    port: 6379,
+    host: '127.0.0.1',
+};
+lond.startRedis(re) //初始化
+lond.redis.event.on("ready",async (data)=>{//成功触发事件
+    console.log("连接成功触发事件")
+    await lond.redis.Exset("test","test0000") //同步set
+    var val  = await lond.redis.get("test") //同步get
+    if(val.error){
+        console.log("redis出错"+val.error)
+    }else{
+        console.log("redis get成功"+val.result)
+    }
+
+})
+lond.redis.event.on("error",(err)=>{//失败触发事件
+    console.log("连接失败"+err)
+})
+
+
+setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序启动直接运行会报错（连接数据库会耗时）
+    await lond.redis.Exset("test","test0000") //同步set
+    var val  = await lond.redis.get("test") //同步get
+    if(val.error){
+        console.log("redis出错"+val.error)
+    }else{
+        console.log("redis get成功"+val.result)
+    }
+},1000)
+```
+
+### mongodb实例
+ ```javascript
+var lond = require("lond")
+var options = {
+    host: 'mongodb://192.168.0.5:27017/node_club_test',
+    table: "node_club_test"
+};
+lond.startMongoDB(options)
+lond.mongod.event.on("ready",async (data)=>{//成功触发事件
+    //连接成功
+  let user = await lond.mongod.find("users",{}) //同步查询
+    if(user.error){ //查询出错
+        console.log(user.error)
+    }else{
+        console.log(user.result)
+    }
+})
+lond.mongod.event.on("error",async (err)=>{//错误处理
+    console.error(err)
+})
+
+setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序启动直接运行会报错（连接数据库会耗时）
+   let user = await lond.mongod.find("users",{}) //同步查询
+     if(user.error){ //查询出错
+         console.log(user.error)
+     }else{
+         console.log(user.result)
+     }
+},1000)
+
+```
+### mysql实例
+
+ ```javascript
+
+ var lond = require("lond")
+ var options = {
+     DATABASE: 'URQuantDB',
+     USERNAME: 'root',
+     PASSWORD: 'Root!!2018',
+     PORT: '3306',
+     HOST: '192.168.0.5',
+     connectionLimit: 30,
+     multipleStatements: true
+ }
+
+ lond.startMysql(options) //初始化Mysql模块 并得到mysql链接实例
+
+ lond.mysql.event.on("ready", async (data) => {//成功触发事件
+     let uer = await lond.mysql.query("select * from test")//查询
+     if (uer.error) {
+         console.log(uer.error)
+     } else {
+         console.log(uer.result)
+     }
+     lond.mysql.Exquery("update from set a = ?",['value'])//异步修改
+ })
+ lond.mysql.event.on("error", async (err) => {//错误处理
+     console.error(err)
+ })
+
+
+ setTimeout(()=>{  //可以非嵌套运用  这里延迟一秒执行 如果程序启动直接运行会报错（连接数据库会耗时）
+     let uer = await lond.mysql.query("select * from test")
+        if (uer.error) {
+            console.log(uer.error)
+        } else {
+            console.log(uer.result)
+        }
+     lond.mysql.Exquery("update from set a = ?",['value'])//异步修改
+ },1000)
+
+
+```
+
+
+## 安装部署
  1、运行 npm install lond 直接将lond包安装包到项目
 
  2、引入
  ```javascript
   var lond = require('lond')
 ```
-## 二、初始化
+## 初始化
 ### 1、初始化mysql
  ```javascript
    var options = {
@@ -49,7 +166,7 @@
  };
  lond.startRedis(options)
 ```
-## 三、监听事件
+## 监听事件
  ```javascript
 lond.mysql.event.on("error",function(err){
   console.error("发生错误"+err)
@@ -64,7 +181,7 @@ lond.redis.event.on("error",function(err){
 
 
 
-## 四、 API
+## API
 
 ### 1、Mysql
  ```javascript
@@ -252,7 +369,7 @@ lond.redis.Exset('test','test')
  }
 ```
  
- ###  incr(key)同步递减 值必须是数字
+### incr(key)同步递减 值必须是数字
  * @param string key
  * @returns {Promise<any>}
 ```javascript
@@ -270,7 +387,7 @@ lond.redis.Exset('test','test')
     lond.redis.Exincr('num')
 ```
   
- ### rpush(key, value)同步从尾部push List
+### rpush(key, value)同步从尾部push List
  * @param string key
  * @param value
 ```javascript
@@ -305,7 +422,7 @@ lond.redis.Exset('test','test')
    }
 ```
  
-list Exlrem (key, num, flag)异步删除
+### list Exlrem (key, num, flag)异步删除
   * @param string  key
   * @param number num
   * @param string flag
@@ -373,7 +490,7 @@ lond.redis.Exlrem('test',1,"test")
 ```
   
   
-  ### Exhset(hashkey, key, value)同步设置hash 
+### Exhset(hashkey, key, value)同步设置hash
   * @param string hashkey
   * @param string key
   * @param string value
@@ -503,9 +620,36 @@ console.log(lond.lond.randomWord(2,2))//ax
 ### remove(array,val)删除数组中指定值并且不留下
      * @param array
      * @param obj
-     
+
 ```javascript
 console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
 ```
 
+
+### remove(array,val)删除数组中指定值并且不留下
+     * @param array
+     * @param obj
+
+```javascript
+console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
+```
+
+
+### compressToEncodedURIComponent(obj) 数据压缩
+     * @param array
+     * @param obj
+
+```javascript
+var reqData = "123aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+console.log("压缩",lond.zpi.compressToEncodedURIComponent(reqData)) //压缩
+```
+
+### decompressFromEncodedURIComponent() 数据解压
+     * @param array
+     * @param obj
+
+```javascript
+var reqData = "123aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+console.log("压缩",lond.zpi.decompressFromEncodedURIComponent(reqData)) //压缩
+```
 
