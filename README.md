@@ -636,20 +636,16 @@ console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
 
 
 ### compressToEncodedURIComponent(obj) 数据压缩
-     * @param array
      * @param obj
-
 ```javascript
 var reqData = "123aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-console.log("压缩",lond.zpi.compressToEncodedURIComponent(reqData)) //压缩
+console.log("压缩",lond.zpi.compressToEncodedURIComponent(reqData)) //IwJgzAhl07fwx0g
 ```
 
-### decompressFromEncodedURIComponent() 数据解压
-     * @param array
-     * @param obj
-
+### decompressFromEncodedURIComponent(str) 数据解压
+     * @param obj str
 ```javascript
-var reqData = "123aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-console.log("压缩",lond.zpi.decompressFromEncodedURIComponent(reqData)) //压缩
+var reqData = "IwJgzAhl07fwx0g"
+console.log("压缩",lond.zpi.decompressFromEncodedURIComponent(reqData)) //123aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ```
 
