@@ -604,7 +604,7 @@ console.log(lond.lond.instend(['aa','bb'], ['aa','bb','cc']))//cc
   * @param obj obj
   * @returns boolean
 ```javascript
-console.log(lond.lond.instend(['aa','cc'], ['cc']))//true
+console.log(lond.lond.contains(['aa','cc'], 'cc'))//true
 ```
 ### formatDateTime(num)获取时间
    * @param number 1: yyyy-MM-dd hh:mm:ss,2: yyyy-mm-dd,3: hh:mm:ss,4: 毫秒时间戳
