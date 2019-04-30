@@ -632,13 +632,7 @@ console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
 ```
 
 
-### remove(array,val)删除数组中指定值并且不留下
-     * @param array
-     * @param obj
 
-```javascript
-console.log(lond.lond.remove(['aa','bb'],'aa'))//['bb']
-```
 
 
 ### compressToEncodedURIComponent(obj) 数据压缩
