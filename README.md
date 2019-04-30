@@ -623,7 +623,7 @@ console.log(lond.lond.randomWord(2,2))//ax
 ```
 
 
-### remove(array,val)删除数组中指定值并且不留下
+### remove(array,val)删除数组中指定值并且不留下"null"
      * @param array
      * @param obj
 
