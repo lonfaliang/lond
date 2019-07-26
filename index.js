@@ -12,6 +12,6 @@ Lond.startRedis = function (options) {
     Lond.redis = require('./lib/redis')
 }
 Lond.lond = require('./lib/public')
-Lond.zip = require('./lib/lz') //消息压缩和解压
+Lond.zip = require('./lib/lz') //消息压缩和解压1
 module.exports = Lond
 
